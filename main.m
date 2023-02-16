@@ -1,11 +1,12 @@
 %% Create matrices of MEG channels. 
 % MM - No set words. dTime-window of analis
 MM=1;
-m=m1;
+m=m1; % MEG data
 t0=0; %-2000;
 dTime=1000; %2000;
 mode=1; % 0 - only sig 1 - all sig+corrmtr+pvalmtr  
 CreateChMEGmatrix(MM,m,t0,dTime,mode)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Create matrix masks for word
 % SaveMGG - 0/1, SaveFig - 0/1
@@ -47,7 +48,8 @@ load('MGG+.mat')
 sM=stdMEG;
 sD=0.9; %StdDelta;
 ShowLinksWords(MM,indexW,ShowCh,sns,sM,sD,corsum,corsumW); 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Search for channels clusters
 % MM - Num set words.
 MM=1;
@@ -81,6 +83,7 @@ StdDelta=0.5;
 sgMGG=sigMGG';
 stdMEG=std(sgMGG)';
 ShowLinksClasters(ClasterCh,stdMEG,StdDelta,ShowNumChan,sens,wordname); 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% MEG sens table: number channel,triplet numbers,channel names
 sens=s;
