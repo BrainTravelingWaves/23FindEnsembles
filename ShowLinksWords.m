@@ -1,4 +1,4 @@
-function[]=ShowLinksWords(MM,indexW,ShowCh,sns,sM,sD,corsum,corsumW)
+function [] = ShowLinksWords(MM,IndexWord,ShowNumChan,sens,corsum,corsumW)
 %% Link sensors
 %IndexWord=6; % 0 %1 % 2 % 3 % 4 % 5 % 6 % 7 % 8
 %ShowNumChan=1;
@@ -29,36 +29,36 @@ i1=1;
 i2=1;
 i3=1;
 for i=1:Nchn  % Load MEG GRAD All location
-    nameS=char(sns.Channel(i).Name);
+    nameS=char(sens.Channel(i).Name);
     if nameS(7)=='1'
-      x1(i1)=sns.Channel(i).Loc(1,1);
-      y1(i1)=sns.Channel(i).Loc(2,1);
-      z1(i1)=sns.Channel(i).Loc(3,1);
+      x1(i1)=sens.Channel(i).Loc(1,1);
+      y1(i1)=sens.Channel(i).Loc(2,1);
+      z1(i1)=sens.Channel(i).Loc(3,1);
       i1=i1+1;  
     end
     if nameS(7)=='2'
-      x2(i2)=sns.Channel(i).Loc(1,1);
-      y2(i2)=sns.Channel(i).Loc(2,1);
-      z2(i2)=sns.Channel(i).Loc(3,1);
+      x2(i2)=sens.Channel(i).Loc(1,1);
+      y2(i2)=sens.Channel(i).Loc(2,1);
+      z2(i2)=sens.Channel(i).Loc(3,1);
       i2=i2+1;  
     end
     if nameS(7)=='3'
-      x3(i3)=sns.Channel(i).Loc(1,1);
-      y3(i3)=sns.Channel(i).Loc(2,1);
-      z3(i3)=sns.Channel(i).Loc(3,1);
+      x3(i3)=sens.Channel(i).Loc(1,1);
+      y3(i3)=sens.Channel(i).Loc(2,1);
+      z3(i3)=sens.Channel(i).Loc(3,1);
       i3=i3+1;  
     end
-    x(i)=sns.Channel(i).Loc(1,1);
-    y(i)=sns.Channel(i).Loc(2,1);
-    z(i)=sns.Channel(i).Loc(3,1);
+    x(i)=sens.Channel(i).Loc(1,1);
+    y(i)=sens.Channel(i).Loc(2,1);
+    z(i)=sens.Channel(i).Loc(3,1);
 end
 
 % Set figure
 hf=figure;
-if indexW==0
+if IndexWord==0
     hf.Name=wrds{1,MM};
 else    
-    hf.Name=wrds{indexW,MM};
+    hf.Name=wrds{IndexWord,MM};
 end
 %% Show sensors
 % Load MAG
@@ -78,8 +78,8 @@ h3.Color='green';
 Nl=0;
 for i=1:Nchn
     for j=1:Nchn
-        if indexW>0
-            if corsumW(i,j,indexW)>0
+        if IndexWord>0
+            if corsumW(i,j,IndexWord)>0
                Nl=Nl+1;
             end
         else
@@ -94,17 +94,8 @@ xy=zeros(Nl,2);
 k=1;
 for i=1:Nchn
     for j=1:Nchn
-        StdD=sM(i)-sM(j);
-        flagsv=0;
-        if (StdD > 0) && (sM(j)>(sM(i)*sD))
-          flagsv=1;
-        end
-        if (StdD < 0) && (sM(i)>(sM(j)*sD))
-          flagsv=1;
-        end 
-        if flagsv==1
-        if indexW>0
-        if corsumW(i,j,indexW)>0
+        if IndexWord>0
+        if corsumW(i,j,IndexWord)>0
            xy(k,1)=i;
            xy(k,2)=j;
            k=k+1;
@@ -116,10 +107,9 @@ for i=1:Nchn
            k=k+1;
         end    
         end    
-        end
     end
 end
-N1=k-1;
+%Ns=size(xy,1);
 for i=1:Nl
     ch1=xy(i,1);
     ch2=xy(i,2);
@@ -164,7 +154,7 @@ for i=1:Nl
    hh.LineWidth=1;
 end
 %%
-if ShowCh==1
+if ShowNumChan==1
 for i=1:Nchn
     text(x(i),y(i),z(i),num2str(i));
 end

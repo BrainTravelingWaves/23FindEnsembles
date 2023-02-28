@@ -1,6 +1,6 @@
-function [St] = FindClasters(MM)
+function [] = FindClasters(MM,Ncls) % Ncls<Nchn
 %% Find Clasters
-Nchn=306;
+%Nchn=306;
 Nstr=8;
 Nwrd=5;
 %Ncls=10;
@@ -34,75 +34,45 @@ for ns=1:Nstr % 1-8
         load(strcat(numst,'MGGc_',namewrds,num2str(nw))) % corrsig
         load(strcat(numst,'MGGp_',namewrds,num2str(nw))),% corpval
         %% Sort std sig
+        %
         St=std(sigMGG');
         [St,Nst]=sort(St,'descend');
         Nst=Nst';
-        St=Nst;
-        %% Test
-        cnn=zeros(Nchn);
-        for i=1:Nchn
-            for j=1:Nchn
-                if (corrsig(i,j)>treshC) && (corpval(i,j)<treshP) && (i~=j)
-                   cnn(i,j)=corrsig(i,j);
-                end
-            end   
-        end       
+        %}
         %% Create claster plus
-        cn=zeros(Nchn);
-        for i=1:Nchn
-            cn(i,1)=i;
+        ClasterChP=zeros(Ncls,Ncls+1);
+        flagsave=0;
+        for i=1:Ncls
             k=2;
-            for j=i+1:Nchn-2
-                if (corrsig(i,j)>treshC) && (corpval(i,j)<treshP) 
-                   cn(i,k)=j;
+            for j=1:Ncls
+                if (corrsig(Nst(j),Nst(i))>treshC) && (corpval(Nst(j),Nst(i))<treshP)
+                   ClasterChP(i,1)=Nst(i);
+                   ClasterChP(i,k)=Nst(j);
                    k=k+1;
+                   flagsave=1;
                 end
             end   
-        end
-        ClasterCh=zeros(Nchn);
-        for i=1:Nchn
-            ClasterCh(i,:)=cn(Nst(i),:);
-        end
-        j=1;
-        for i=1:Nchn
-            if ClasterCh(j,2)==0
-                ClasterCh(j,:)=[];
-                j=j-1;
-            end
-            j=j+1;
-        end        
-        if size(ClasterCh,1)>0
-        save(strcat(numst,'CLSp_',namewrds,num2str(nw)),'ClasterCh')
+        end 
+        if flagsave==1
+        save(strcat(numst,'CLSp_',namewrds,num2str(nw)),'ClasterChP')
         end
         %% Create claster minus
-        cn=zeros(Nchn);
-        for i=1:Nchn
-            cn(i,1)=i;
+        ClasterChM=zeros(Ncls,Ncls+1);
+        flagsave=0;
+        for i=1:Ncls
             k=2;
-            for j=i+1:Nchn-2
-                if corrsig(i,j)<treshM && (corpval(i,j)<treshP)
-                   cn(i,k)=j;
+            for j=1:Ncls
+                if corrsig(Nst(j),Nst(i))<treshM && (corpval(Nst(j),Nst(i))<treshP)
+                   ClasterChM(i,1)=-Nst(i);
+                   ClasterChM(i,k)=-Nst(j);
                    k=k+1;
+                   flagsave=1;
                 end
             end   
         end
-        ClasterCh=zeros(Nchn);
-        for i=1:Nchn
-            ClasterCh(i,:)=cn(Nst(i),:);
+        if flagsave==1
+        save(strcat(numst,'CLSm_',namewrds,num2str(nw)),'ClasterChM')        %%
         end
-        j=1;
-        for i=1:Nchn
-            if ClasterCh(j,2)==0
-                ClasterCh(j,:)=[];
-                j=j-1;
-            end
-            j=j+1;
-        end        
-        ClasterCh=ClasterCh*-1;
-        if size(ClasterCh,1)>0
-        save(strcat(numst,'CLSm_',namewrds,num2str(nw)),'ClasterCh')
-        end
-        %%
         jj=jj+1;
     end
 end

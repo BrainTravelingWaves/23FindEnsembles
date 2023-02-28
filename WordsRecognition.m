@@ -1,4 +1,4 @@
-function [] = WordsRecognition(MM,corsumW,SaveF,ShowFig)
+function [] = WordsRecognition(MM,corsumW,SaveFig,ShowFig)
 %% Words recognition
 Nchn=306;
 Nstr=8;
@@ -57,7 +57,7 @@ end
   title(name)
   colorbar
   name=strcat(num2str(ii),name,'.fig');
-  if SaveF==1
+  if SaveFig==1
       savefig(name)
   end
   pause(1)

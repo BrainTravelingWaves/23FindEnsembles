@@ -1,10 +1,9 @@
-function [] = CreateChMEGmatrix(MM,dTime)
-%% CreateChMEGmatrix
+%% CreateMatrixChMEG
 Nchn=306;
-%dTime=1000;
-%treshC=0.7;
-%treshP=0.001;
-%MM=1; % 1 2 3
+dTime=1000;
+treshC=0.7;
+treshP=0.001;
+MM=1; % 1 2 3
 %% word list
 wrds={'zavitoy','vozmojn','vzaimny';
       'kudryav','dostupn','dvoyaky';
@@ -124,6 +123,5 @@ for ns=1:Nstr % 1-8
         save(strcat(numst,'MGGp_',namewrds,num2str(nw)),'corpval')
         jj=jj+1;
      end
-end
 end
 %%
